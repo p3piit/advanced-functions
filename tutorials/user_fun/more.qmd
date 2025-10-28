@@ -93,7 +93,11 @@ sapply(1:5, function(x) x^2)
 Anonymous functions are especially handy inside tidyverse pipelines:
 
 ```{r}
-bfi |> mutate(age_sq = sapply(age, function(x) x^2))
+library(dplyr)
+data <- data.frame(age = c(20, 25, 30, 35, 40),
+                   weight = c(150, 160, 170, 180, 190),
+                   height = c(65, 66, 67, 68, 69))
+data|> mutate(age_sq = sapply(age, function(x) x^2))
 ```
 
 They let you write small transformations on the fly without cluttering your workspace with new function names.

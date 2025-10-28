@@ -2,13 +2,231 @@
   {
     "objectID": "tutorials/user_fun/more.html",
     "href": "tutorials/user_fun/more.html",
-    "title": "Second Topic",
+    "title": "More on User Defined Functions",
     "section": "",
-    "text": "Multiple Arguments and Default Values\nFunctions can take several arguments, and some may have default values, so the user can choose whether to specify them.\n\npower &lt;- function(x, exp = 2) {\n  x ^ exp\n}\n\npower(3)\n\n[1] 9\n\npower(3, 3)\n\n[1] 27\n\n\nHere, if you don’t specify exp, it defaults to 2 (squaring).\nYou can also include if statements inside your functions to make them react to different inputs.\n\ncategorize_age &lt;- function(age) {\n  if (age &lt; 18) {\n    \"minor\"\n  } else {\n    \"adult\"\n  }\n}\n\ncategorize_age(17)\n\n[1] \"minor\"\n\n\nThis is a simple but powerful idea: you can make your functions decide what to do based on input values.\nA function can return any R object — a vector, list, data frame, or even a plot. For example:\n\nsummarize_vector &lt;- function(vec) {\n  mean_val &lt;- mean(vec, na.rm = TRUE)\n  sd_val &lt;- sd(vec, na.rm = TRUE)\n  n &lt;- sum(!is.na(vec))\n  \n  return(list(mean = mean_val, sd = sd_val, n = n))\n}\n\n\nsummarize_vector(c(1, 2, 3, 4, NA))\n\n$mean\n[1] 2.5\n\n$sd\n[1] 1.290994\n\n$n\n[1] 4\n\n\nWhen you create a function, R also creates a new environment for it to run in. Variables defined inside a function exist only within that function — they are not available outside it.\n\nadd_one &lt;- function(x) {\n  y &lt;- x + 1\n  return(y)\n}\n\nadd_one(4)\n\n[1] 5\n\ny\n\nError: object 'y' not found\n\n\nHere, y exists only while the function runs; after it returns, y disappears. This isolation prevents unintended side effects.\nFunctions can access variables defined in the global environment, but they will not modify them unless you explicitly return a value and reassign it.\nx &lt;- 10 increment &lt;- function() { x + 1 } increment() #&gt; [1] 11 x #&gt; [1] 10 # unchanged\nThis separation of environments is one of R’s core design principles: functions are self-contained and safe to reuse without altering your workspace.\nAnonymous Functions and Shortcuts\nSometimes you need a quick, one-off function — for example, as an argument to another function — without giving it a name. These are called anonymous functions.\nYou can define them inline with the usual function() syntax:\nsapply(1:5, function(x) x^2) #&gt; [1] 1 4 9 16 25\nSince R 4.1, there’s an even shorter syntax using ( ):\nsapply(1:5, (x) x^2)\nAnonymous functions are especially handy inside tidyverse pipelines:\nbfi |&gt; mutate(age_sq = sapply(age, (x) x^2))\nThey let you write small transformations on the fly without cluttering your workspace with new function names.\n\n\n\n Back to top",
+    "text": "Multiple Arguments and Default Values\nFunctions can take several arguments, and some may have default values, so the user can choose whether to specify them.\n\npower &lt;- function(x, exp = 2) {\n  x ^ exp\n}\n\npower(3)\n\n[1] 9\n\npower(3, 3)\n\n[1] 27\n\n\nHere, if you don’t specify exp, it defaults to 2 (squaring).\nYou can also include if statements inside your functions to make them react to different inputs.\n\ncategorize_age &lt;- function(age) {\n  if (age &lt; 18) {\n    \"minor\"\n  } else {\n    \"adult\"\n  }\n}\n\ncategorize_age(17)\n\n[1] \"minor\"\n\n\nThis is a simple but powerful idea: you can make your functions decide what to do based on input values.\nA function can return any R object — a vector, list, data frame, or even a plot. For example:\n\nsummarize_vector &lt;- function(vec) {\n  mean_val &lt;- mean(vec, na.rm = TRUE)\n  sd_val &lt;- sd(vec, na.rm = TRUE)\n  n &lt;- sum(!is.na(vec))\n  \n  return(list(mean = mean_val, sd = sd_val, n = n))\n}\n\n\nsummarize_vector(c(1, 2, 3, 4, NA))\n\n$mean\n[1] 2.5\n\n$sd\n[1] 1.290994\n\n$n\n[1] 4\n\n\nWhen you create a function, R also creates a new environment for it to run in. Variables defined inside a function exist only within that function — they are not available outside it.\n\nadd_one &lt;- function(x) {\n  y &lt;- x + 1\n  return(y)\n}\n\nadd_one(4)\n\n[1] 5\n\ny\n\nError: object 'y' not found\n\n\nHere, y exists only while the function runs; after it returns, y disappears. This isolation prevents unintended side effects.\nFunctions can access variables defined in the global environment, but they will not modify them unless you explicitly return a value and reassign it.\n\nx &lt;- 10\nincrement &lt;- function() {\n  x + 1\n}\nincrement()\n\n[1] 11\n\nx\n\n[1] 10\n\n\nThis separation of environments is one of R’s core design principles: functions are self-contained and safe to reuse without altering your workspace.\n\n\nAnonymous Functions and Shortcuts\nSometimes you need a quick, one-off function — for example, as an argument to another function — without giving it a name. These are called anonymous functions.\nYou can define them inline with the usual function() syntax:\n\nsapply(1:5, function(x) x^2)\n\n[1]  1  4  9 16 25\n\n\nAnonymous functions are especially handy inside tidyverse pipelines:\n\nlibrary(dplyr)\ndata &lt;- data.frame(age = c(20, 25, 30, 35, 40),\n                   weight = c(150, 160, 170, 180, 190),\n                   height = c(65, 66, 67, 68, 69))\ndata|&gt; mutate(age_sq = sapply(age, function(x) x^2))\n\n  age weight height age_sq\n1  20    150     65    400\n2  25    160     66    625\n3  30    170     67    900\n4  35    180     68   1225\n5  40    190     69   1600\n\n\nThey let you write small transformations on the fly without cluttering your workspace with new function names.\n\n\n\n\n\n\nPractice\n\n\n\n\nWrite a function called that takes a single numeric argument and returns a character string describing whether the number is \"positive\", \"negative\", or \"zero\".\nAdd a second argument to your function that allows the user to specify whether they want the output in uppercase or lowercase letters. The default should be lowercase.\n\n\n Interactive Editor Hint Solution\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nTo go from lowercase to uppercase, you can use the toupper() function in R.\n\n\n\n# a \ndescribe_number &lt;- function(num) {\n  if (num &gt; 0) {\n    return(\"positive\")\n  } else if (num &lt; 0) {\n    return(\"negative\")\n  } else {\n    return(\"zero\")\n  }\n}\n\n# b\ndescribe_number &lt;- function(num, to_upper = FALSE) {\n  if (num &gt; 0) {\n    result &lt;- \"positive\"\n  } else if (num &lt; 0) {\n    result &lt;- \"negative\"\n  } else {\n    result &lt;- \"zero\"\n  }\n  if (to_upper) {\n    result &lt;- toupper(result)\n  }\n  return(result)\n}\n\n\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Open-Stat-Prog",
       "User Defined Functions",
-      "Second Topic"
+      "More on User Defined Functions"
+    ]
+  },
+  {
+    "objectID": "tutorials/pipes/why_pipes.html",
+    "href": "tutorials/pipes/why_pipes.html",
+    "title": "Why Use Pipes in R?",
+    "section": "",
+    "text": "When you perform several transformations in R, your code can quickly become cluttered with nested parentheses or a series of temporary variables. Pipes offer a cleaner, more intuitive alternative: they let you write code that mirrors the logical flow of your analysis. Each step passes its output directly into the next, creating a readable sequence of operations that tells the story of your data transformation from start to finish.\nFirst of all, let’s call the the dplyr package to use the pipe operator %&gt;% and look at the dataset we will work with:\n\nlibrary(dplyr)\nhead(bfi)\n\n      a1 a2 a3 a4 a5 c1 c2 c3 c4 c5 e1 e2 e3 e4 e5 n1 n2 n3 n4 n5 o1 o2 o3 o4\n61617  2  4  3  4  4  2  3  3  4  4  3  3  3  4  4  3  4  2  2  3  3  6  3  4\n61618  2  4  5  2  5  5  4  4  3  4  1  1  6  4  3  3  3  3  5  5  4  2  4  3\n61620  5  4  5  4  4  4  5  4  2  5  2  4  4  4  5  4  5  4  2  3  4  2  5  5\n61621  4  4  6  5  5  4  4  3  5  5  5  3  4  4  4  2  5  2  4  1  3  3  4  3\n61622  2  3  3  4  5  4  4  5  3  2  2  2  5  4  5  2  3  4  4  3  3  3  4  3\n61623  6  6  5  6  5  6  6  6  1  3  2  1  6  5  6  3  5  2  2  3  4  3  5  6\n      o5    gen ed age agree consc extra neuro open     agree_z    consc_z\n61617  3   male NA  16   4.0   2.8   3.8   2.8  3.0 -0.72583913 -1.5406915\n61618  3 female NA  18   4.2   4.0   5.0   3.8  4.0 -0.50322161 -0.2793220\n61620  2 female NA  17   3.8   4.0   4.2   3.6  4.8 -0.94845665 -0.2793220\n61621  5 female NA  17   4.6   3.0   3.6   2.8  3.2 -0.05798656 -1.3304633\n61622  3   male NA  17   4.0   4.4   4.8   3.2  3.6 -0.72583913  0.1411345\n61623  1 female  3  21   4.6   5.6   5.6   3.0  5.0 -0.05798656  1.4025040\n          extra_z     neuro_z     open_z    gm\n61617 -0.32527289 -0.30281564 -1.9627661   boy\n61618  0.80583785  0.53307316 -0.7257147 woman\n61620  0.05176403  0.36589540  0.2639264  girl\n61621 -0.51379134 -0.30281564 -1.7153558  girl\n61622  0.61731939  0.03153988 -1.2205352   boy\n61623  1.37139322 -0.13563788  0.5113367 woman\n\n\nFor example, consider this chain of operations applied to the bfi dataset:\n\nSelect five personality scale scores.\nCompute their covariance matrix.\nExtract the variances from this matrix.\nTake the square roots to obtain standard deviations.\n\nIn base R, this can be written as nested function calls:\n\nsqrt(\n  diag(\n    cov(\n      bfi[c(\"agree\", \"consc\", \"extra\", \"neuro\", \"open\")],\n      use = \"pairwise\"\n    )\n  )\n)\n\n    agree     consc     extra     neuro      open \n0.8984019 0.9513469 1.0609041 1.1963314 0.8083739 \n\n\nWhile technically correct, the structure is hard to follow. Alternatively, we can save intermediate results:\n\ntmp &lt;- bfi[c(\"agree\", \"consc\", \"extra\", \"neuro\", \"open\")]\ntmp &lt;- cov(tmp, use = \"pairwise\")\ntmp &lt;- diag(tmp)\nsqrt(tmp)\n\n    agree     consc     extra     neuro      open \n0.8984019 0.9513469 1.0609041 1.1963314 0.8083739 \n\n\nThis approach is clearer but involves multiple temporary variables and assignments.\nUsing a pipe, we can express the same sequence in a single, logical flow that reads from top to bottom:\n\nbfi %&gt;%\n  select(agree, consc, extra, neuro, open) %&gt;%\n  cov(use = \"pairwise\") %&gt;%\n  diag() %&gt;%\n  sqrt()\n\n    agree     consc     extra     neuro      open \n0.8984019 0.9513469 1.0609041 1.1963314 0.8083739 \n\n\nHere, the result of each function is passed directly into the next, eliminating unnecessary assignments and parentheses. Pipes enhance readability by allowing you to see the sequence of transformations at a glance, making your code easier to understand and maintain.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nPractice\n\n\n\nUse a pipeline to calculate the square root of the mean of the agreeableness scale score for males in the bfi data.\n\n Interactive Editor Hint Solution\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nYou can use the unlist() function to covert a list to a vector.\n\n\n\nbfi %&gt;%\n  filter(gen == \"male\") %&gt;%\n  select(agree) %&gt;%\n  unlist() %&gt;%\n  mean(na.rm = TRUE) %&gt;%\n  sqrt()\n\n[1] 2.094169\n\n\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Pipes",
+      "Why Use Pipes in R?"
+    ]
+  },
+  {
+    "objectID": "tutorials/pipes/data_man.html",
+    "href": "tutorials/pipes/data_man.html",
+    "title": "Using Pipes for Data Manipulation in R",
+    "section": "",
+    "text": "Building a Workflow with Pipes\nPipes are especially powerful when used to chain together multiple data processing steps. Let’s look at a more substantial example.\nSuppose we want to:\n\nCenter the variable age on 18.\nCreate scale scores for extraversion and neuroticism.\nKeep only participants aged 18 or older.\nSelect only the scale scores and demographic variables.\nSort the data by extraversion in ascending order.\n\nUsing dplyr pipes, we can write:\n\ntmp1 &lt;- bfi %&gt;%\n  mutate(age = age - 18,\n         extra = rowMeans(across(matches(\"^e\\\\d$\")), na.rm = TRUE),\n         neuro = rowMeans(across(matches(\"^n\\\\d$\")), na.rm = TRUE)) %&gt;%\n  filter(age &gt;= 0) %&gt;%\n  select(extra, neuro, age, gen, ed, gm) %&gt;%\n  arrange(extra)\n\nhead(tmp1, 20)\n\n   extra neuro age    gen ed    gm\n1    1.0   1.0   5   male  3   man\n2    1.0   1.0   1   male  3   man\n3    1.6   3.2   0 female  3 woman\n4    1.8   4.0  18 female  2 woman\n5    2.0   6.0  32 female  3 woman\n6    2.2   4.4   5 female  3 woman\n7    2.2   4.6  22   male NA   man\n8    2.2   4.0  17 female  3 woman\n9    2.2   2.6  22 female  3 woman\n10   2.2   4.2   9 female  5 woman\n11   2.2   3.8  36 female  4 woman\n12   2.2   2.8  11 female  3 woman\n13   2.2   6.0   9 female  3 woman\n14   2.2   1.2   3 female  3 woman\n15   2.2   4.2  20 female  3 woman\n16   2.2   1.4  32 female  4 woman\n17   2.4   2.0  50   male  5   man\n18   2.4   3.6   3   male  4   man\n19   2.4   2.8  36 female  3 woman\n20   2.4   1.0   0 female  1 woman\n\n\nEach step is explicit, readable, and self-contained — it’s immediately clear what happens and in what order.\nThe same logic written in base R would be much harder to follow:\n\ntmp2 &lt;- bfi\ntmp2$age   &lt;- tmp2$age - 18\ntmp2$extra &lt;- rowMeans(tmp2[grep(\"^e\\\\d$\", colnames(tmp2))], na.rm = TRUE)\ntmp2$neuro &lt;- rowMeans(tmp2[grep(\"^n\\\\d$\", colnames(tmp2))], na.rm = TRUE)\ntmp2 &lt;- tmp2[tmp2$age &gt;= 0, c(\"extra\", \"neuro\", \"age\", \"gen\", \"ed\", \"gm\")]\ntmp2 &lt;- tmp2[order(tmp2$extra), ]\n\nBoth approaches produce the same result — but the piped version is far clearer.\n\n\nHow Pipes Work\nThe pipe operator simply takes the result from the left-hand side and inserts it as the first argument in the function on the right-hand side.\nThis means the two lines below are equivalent:\n\nmean(bfi$age)\n\n[1] 28.78214\n\nbfi$age %&gt;% mean()\n\n[1] 28.78214\n\n\nThe same applies when passing arguments to functions:\n\nvar(bfi$a1, na.rm = TRUE)\n\n[1] 1.981724\n\nbfi$a1 %&gt;% var(na.rm = TRUE)\n\n[1] 1.981724\n\n\n\n\nWhat happens when the data isn’t the first argument?\nSome functions — like lm() — don’t take the data frame as the first argument. If you try to use a pipe directly, it won’t work:\n\nbfi %&gt;% lm(extra ~ age)  # Error\n\nError in as.data.frame.default(data): cannot coerce class '\"formula\"' to a data.frame\n\n\nIn these cases, you can use the special placeholder . to tell R explicitly where to insert the piped object:\n\nbfi %&gt;% lm(extra ~ age, data = .)\n\n\nCall:\nlm(formula = extra ~ age, data = .)\n\nCoefficients:\n(Intercept)          age  \n    3.97269      0.00599  \n\n\nThis small trick makes it possible to use pipes with nearly any function, even when the data aren’t the first argument.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nPractice\n\n\n\nUse pipes to perform the following data manipulations on the bfi dataset: 1. Create a new variable age_centered that centers age around its mean. 2. Filter the dataset to include only participants with age greater than 25. 3. Select only the new centered age variable, the scores for agreeableness and conscientiousness, and the demographic variables gen and ed. 4. Display the first 20 rows of the resulting dataset.\n\n Interactive Editor Solution\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nbfi %&gt;%\n  mutate(age_centered = age - mean(age, na.rm = TRUE)) %&gt;%\n  filter(age &gt; 25) %&gt;%\n  select(age_centered, agree, consc, gen, ed) %&gt;%\n  head(20)\n\n   age_centered agree consc    gen ed\n1    39.2178571   5.6  2.80   male  5\n2    -1.7821429   5.4  3.80 female  2\n3    22.2178571   4.0  5.80 female  5\n4     4.2178571   3.8  4.20 female  3\n5    12.2178571   5.6  4.60 female  3\n6     1.2178571   6.0  6.00   male NA\n7    19.2178571   4.6  5.20 female  5\n8    11.2178571   5.4  3.80 female  3\n9    -1.7821429   3.8  4.00 female  4\n10   14.2178571   3.8  4.40 female  1\n11   -2.7821429   5.2  4.80 female  4\n12   -2.7821429   4.4  4.00   male  4\n13   -2.7821429   4.6  3.80   male  5\n14   21.2178571   5.0  5.40 female  2\n15    0.2178571   4.2  4.80   male  5\n16    3.2178571   4.2  2.80   male  1\n17    3.2178571   5.6  5.25 female  4\n18   -2.7821429   4.0  5.20 female  3\n19   -1.7821429   5.8  5.00 female  5\n20    7.2178571   4.6  4.80 female  5\n\n\n\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Pipes",
+      "Using Pipes for Data Manipulation in R"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Module Template",
+    "section": "",
+    "text": "Welcome to our template module. Every module comprises a series of topical tutorials, such as the three linked below.\nEach tutorial will comprise a series of interactive lessons with practice problems embedded throughout. Each tutorial section should be wrapped up with a knowledge quiz.",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-goals",
+    "href": "index.html#learning-goals",
+    "title": "Module Template",
+    "section": "Learning Goals",
+    "text": "Learning Goals\nAfter completing this module, you will be able to:\n\nTutorial 1\n\nA thing you should learn from Tutorial 1.\nAnother thing you should learn from Tutorial 1.\nOne more thing you should learn From Tutorial 1.\n\n\n\nTutorial 2\n\nA thing you should learn from Tutorial 2.\nAnother thing you should learn from Tutorial 2.\n\nClick the button below to get started with the first tutorial.\n\n\n Begin Tutorial",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "in_progress.html",
+    "href": "in_progress.html",
+    "title": "In Progress",
+    "section": "",
+    "text": "Sorry, we’re still building the page you’ve requested.\nIt’s almost done…really.\nWe’re just working through a few minor issues…\n\n\n\nImage Source"
+  },
+  {
+    "objectID": "quizzes/user_fun/questions/default_arguments1.html",
+    "href": "quizzes/user_fun/questions/default_arguments1.html",
+    "title": "Question",
+    "section": "",
+    "text": "Which section of an R package help file would you reference to learn the default values for a function’s arguments.\n\n\n\nDescription\nUsage\nArguments\nDetails\nValue\nSee Also\nExamples"
+  },
+  {
+    "objectID": "quizzes/user_fun/questions/default_arguments1.html#answerlist",
+    "href": "quizzes/user_fun/questions/default_arguments1.html#answerlist",
+    "title": "Question",
+    "section": "",
+    "text": "Description\nUsage\nArguments\nDetails\nValue\nSee Also\nExamples"
+  },
+  {
+    "objectID": "quizzes/pipes/index.html",
+    "href": "quizzes/pipes/index.html",
+    "title": "Knowledge Quiz: Tutorial 1",
+    "section": "",
+    "text": "Note\n\n\n\n\nClick the check-mark button to check your answer.\nClick the question-mark button to see an explanation of the solution.\n\n\n\n\n\n\nWhich of the following expressions will return TRUE?\n\n\"alice\" == \"bob\" | \"alice\" == \"alice\"(8 + 6) &lt; (8 * 6)\"foo\" == \"bar\"TRUE & FALSE\"foo\" != \"bar\"(8 - 1) == 7 & 7 &gt;= (14 / 2)\n\n\n\n\nTRUE: “alice” is not equal to “bob”, but “alice is equal to”alice”\nTRUE: 14 is strictly less than 48\nFALSE: “foo” is not equal to “bar”\nFALSE: Trivially\nTRUE: “foo” is not equal to “bar”\nTRUE: 7 is equal to 7, and 7 is greater than or equal to 7\n\n\n\n\n\nWhat is the value of \\(x\\) in the following equation?\n\\[\nx = \\frac{2 + 4}{3}\n\\]\nRound your answer to two decimal places.\n\n\n\nAfter rounding, we get 2.00.\n\n\n\n\nUse the following help file excerpt to answer the question below.\n\n\n\n\n\n\n\n\ncor\nR Documentation\n\n\n\n\n\nCorrelation, Variance and Covariance (Matrices)\n\nUsage\n\nvar(x, y = NULL, na.rm = FALSE, use)\n\ncov(x, y = NULL, use = \"everything\",\n    method = c(\"pearson\", \"kendall\", \"spearman\"))\n\ncor(x, y = NULL, use = \"everything\",\n    method = c(\"pearson\", \"kendall\", \"spearman\"))\n\ncov2cor(V)\n\n\n\n\n\n\n\n\nWhat is the default value for the use argument of the cor() function?\n\nmethodyNULL\"everything\"The use argument does not have a defined default value.\n\n\n\nThe default value for the use argument is \"everything\".\n\nWrong: This is an argument name\nWrong: This is an argument name\nWrong: This is the default value for y\nCorrect\nWrong: There is a default value defined for use.\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Pipes",
+      "Knowledge Quiz"
+    ]
+  },
+  {
+    "objectID": "quizzes/pipes/questions/logical.html",
+    "href": "quizzes/pipes/questions/logical.html",
+    "title": "Question",
+    "section": "",
+    "text": "Which of the following expressions will return TRUE?\n\n\n\n\"foo\" != \"bar\"\n(8 + 6) &lt; (8 * 6)\n(8 - 1) == 7 & 7 &gt;= (14 / 2)\n\"alice\" == \"bob\" | \"alice\" == \"alice\"\n!(6 &gt; 7)\nTRUE\nFALSE\n\"foo\" == \"bar\"\n(8 - 1) == 7 & 7 &gt; (14 / 2)\n\"alice\" == \"bob\" | \"alice\" != \"alice\"\n\"alice\" == \"bob\" & \"alice\" == \"alice\"\n!TRUE\nTRUE & FALSE"
+  },
+  {
+    "objectID": "quizzes/pipes/questions/logical.html#answerlist",
+    "href": "quizzes/pipes/questions/logical.html#answerlist",
+    "title": "Question",
+    "section": "",
+    "text": "\"foo\" != \"bar\"\n(8 + 6) &lt; (8 * 6)\n(8 - 1) == 7 & 7 &gt;= (14 / 2)\n\"alice\" == \"bob\" | \"alice\" == \"alice\"\n!(6 &gt; 7)\nTRUE\nFALSE\n\"foo\" == \"bar\"\n(8 - 1) == 7 & 7 &gt; (14 / 2)\n\"alice\" == \"bob\" | \"alice\" != \"alice\"\n\"alice\" == \"bob\" & \"alice\" == \"alice\"\n!TRUE\nTRUE & FALSE"
+  },
+  {
+    "objectID": "quizzes/pipes/questions/logical.html#answerlist-1",
+    "href": "quizzes/pipes/questions/logical.html#answerlist-1",
+    "title": "Question",
+    "section": "Answerlist",
+    "text": "Answerlist\n\nTRUE: “foo” is not equal to “bar”\nTRUE: 14 is strictly less than 48\nTRUE: 7 is equal to 7, and 7 is greater than or equal to 7\nTRUE: “alice” is not equal to “bob”, but “alice is equal to”alice”\nTRUE: 6 is not strictly greater than 7, and that result is negated\nTRUE: Trivially\nFALSE: Trivially\nFALSE: “foo” is not equal to “bar”\nFALSE: 7 is equal to 7, but 7 is not strictly greater than 7\nFALSE: “alice” is not equal to “bob”, and “alice” is equal to “alice”\nFALSE: “alice” is not equal to “bob”\nFALSE: Trivial negation\nFALSE: Trivially"
+  },
+  {
+    "objectID": "quizzes/pipes/questions/arithmetic2.html",
+    "href": "quizzes/pipes/questions/arithmetic2.html",
+    "title": "Question",
+    "section": "",
+    "text": "Question\nWhat is the value of \\(x\\) in the following equation?\n\\[\nx = \\frac{2 + 2}{4}\n\\]\nRound your answer to two decimal places.\n\n\nSolution\nAfter rounding, we get 1.00.\n\n\nMeta-information\nexname: Arithmetic extype: num exsolution: 1.00 extol: 0.01\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "quizzes/pipes/questions/default_arguments2.html",
+    "href": "quizzes/pipes/questions/default_arguments2.html",
+    "title": "Question",
+    "section": "",
+    "text": "Use the following help file excerpt to answer the question below.\n\n\n\n\n\n\n\n\ncor\nR Documentation\n\n\n\n\n\n\n\n\n\nvar(x, y = NULL, na.rm = FALSE, use)\n\ncov(x, y = NULL, use = \"everything\",\n    method = c(\"pearson\", \"kendall\", \"spearman\"))\n\ncor(x, y = NULL, use = \"everything\",\n    method = c(\"pearson\", \"kendall\", \"spearman\"))\n\ncov2cor(V)\n\n\n\n\n\n\n\n\nWhat is the default value for the use argument of the cor() function?\n\n\n\n\"everything\"\n\"Everything\n\"spearman\"\n\"pearson\"\n\"kendall\"\nc(\"pearson\", \"spearman\", \"kendall\")\nNULL\nmethod\ny\nx\nThe use argument does not have a defined default value."
+  },
+  {
+    "objectID": "quizzes/pipes/questions/default_arguments2.html#answerlist",
+    "href": "quizzes/pipes/questions/default_arguments2.html#answerlist",
+    "title": "Question",
+    "section": "",
+    "text": "\"everything\"\n\"Everything\n\"spearman\"\n\"pearson\"\n\"kendall\"\nc(\"pearson\", \"spearman\", \"kendall\")\nNULL\nmethod\ny\nx\nThe use argument does not have a defined default value."
+  },
+  {
+    "objectID": "quizzes/pipes/questions/default_arguments2.html#answerlist-1",
+    "href": "quizzes/pipes/questions/default_arguments2.html#answerlist-1",
+    "title": "Question",
+    "section": "Answerlist",
+    "text": "Answerlist\n\nCorrect\nWrong: The “E” should be lowercase\nWrong: This is one of the possible methods\nWrong: This is one of the possible methods\nWrong: This is one of the possible methods\nWrong: These are all of the possible methods\nWrong: This is the default value for y\nWrong: This is an argument name\nWrong: This is an argument name\nWrong: This is an argument name\nWrong: There is a default value defined for use."
+  },
+  {
+    "objectID": "quizzes/user_fun/questions/bad_question.html",
+    "href": "quizzes/user_fun/questions/bad_question.html",
+    "title": "Question",
+    "section": "",
+    "text": "Yes or No?\n\n\n\nYes\nYes\nYes\nYes\nYes\nNo\nNo\nNo\nNo\nNo"
+  },
+  {
+    "objectID": "quizzes/user_fun/questions/bad_question.html#answerlist",
+    "href": "quizzes/user_fun/questions/bad_question.html#answerlist",
+    "title": "Question",
+    "section": "",
+    "text": "Yes\nYes\nYes\nYes\nYes\nNo\nNo\nNo\nNo\nNo"
+  },
+  {
+    "objectID": "quizzes/user_fun/questions/bad_question.html#answerlist-1",
+    "href": "quizzes/user_fun/questions/bad_question.html#answerlist-1",
+    "title": "Question",
+    "section": "Answerlist",
+    "text": "Answerlist\n\nCorrect\nWrong\nWrong\nWrong\nWrong\nWrong\nWrong\nWrong\nWrong\nWrong"
+  },
+  {
+    "objectID": "quizzes/user_fun/index.html",
+    "href": "quizzes/user_fun/index.html",
+    "title": "Knowledge Quiz: Tutorial 2",
+    "section": "",
+    "text": "Note\n\n\n\n\nClick the check-mark button to check your answer.\nClick the question-mark button to see an explanation of the solution.\n\n\n\n\n\n\nYes or No?\n\nNoYesYesYesYes\n\n\n\n\nWrong\nWrong\nWrong\nWrong\nCorrect\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "User Defined Functions",
+      "Knowledge Quiz"
+    ]
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "Conclusion",
+    "section": "",
+    "text": "Use this page to provide some kind of brief wrap-up.",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Conclusion"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#next-steps",
+    "href": "conclusion.html#next-steps",
+    "title": "Conclusion",
+    "section": "Next Steps",
+    "text": "Next Steps\nIf your module feeds naturally into another, link that module through the button below as a suggestion for further study.\n\nHere, we’re linking to the First Steps module.\n\n\n\n Next Module",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Conclusion"
+    ]
+  },
+  {
+    "objectID": "tutorials/pipes/diff_pipes.html",
+    "href": "tutorials/pipes/diff_pipes.html",
+    "title": "Different Pipe Operators in R",
+    "section": "",
+    "text": "The Exposition Pipe %$%\nThe exposition pipe (%$%), also from the magrittr package, behaves slightly differently. Instead of passing a dataset as an argument, it exposes the variable names of a data frame directly to the next function.\nFor example, we can write:\n\nbfi %$% lm(extra ~ age)\n\n\nCall:\nlm(formula = extra ~ age)\n\nCoefficients:\n(Intercept)          age  \n    3.97269      0.00599  \n\n\nThis works because %$% allows the variables extra and age to be used as if they were objects in the global environment, even though they come from within bfi.\n\n\nThe Base R Pipe |&gt;\nAs of R 4.1, there’s also a native pipe operator: |&gt;. It works like %&gt;% but is simpler and doesn’t require loading dplyr or magrittr.\nYou can re-create the first example using only base R syntax:\n\nbfi[c(\"agree\", \"consc\", \"extra\", \"neuro\", \"open\")] |&gt;\n  cov(use = \"pairwise\") |&gt;\n  diag() |&gt;\n  sqrt()\n\n    agree     consc     extra     neuro      open \n0.8984019 0.9513469 1.0609041 1.1963314 0.8083739 \n\n\nThe base pipe is great for lightweight pipelines, while the %&gt;% pipe remains preferred for more complex workflows, especially those using tidyverse functions like mutate(), filter(), and select().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nPractice\n\n\n\nUse the pipe and exposition pipe to calculate the correlation between age and agree for adults in the bfi data.\n\n Interactive Editor Hint Solution\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nYou can use the cor() function to compute the correlation between two variables.\n\n\n\nbfi %&gt;%\n  filter(age &gt;= 18) %$%\n  cor(age, agree)\n\n[1] 0.1546906\n\n\n\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Pipes",
+      "Different Pipe Operators in R"
+    ]
+  },
+  {
+    "objectID": "tutorials/pipes/index.html",
+    "href": "tutorials/pipes/index.html",
+    "title": "Pipes",
+    "section": "",
+    "text": "When data workflows grow beyond one or two steps, code quickly becomes hard to read: nested parentheses pile up, temporary objects proliferate, and the sequence of operations gets obscured. Pipes solve this by letting you write transformations in the order you think about them—left to right, top to bottom—so each result flows naturally into the next step.\nThe pipe operator, written as %&gt;%, is provided by the magrittr package . It works by taking the output of one expression and feeding it as the first argument to the next function. This simple idea makes your code easier to read, debug, and modify, especially for multi-step analyses.\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "Pipes"
+    ]
+  },
+  {
+    "objectID": "tutorials/user_fun/write_fun.html",
+    "href": "tutorials/user_fun/write_fun.html",
+    "title": "Writing Functions in R",
+    "section": "",
+    "text": "The general structure of a function in R is:\n\nfunction_name &lt;- function(arg1, arg2 = default_value) {\n  # body: operations using the arguments\n  return(output)\n}\n\nA function definition has three main components:\n\nName: the label you assign to your new function.\nArguments: the inputs your function takes; they can have default values.\nBody: the code that executes when the function is called.\n\nThe return() statement specifies what the function should output, but it is optional. If omitted, R automatically returns the value of the last evaluated expression.\nA simple example:\n\nsquare &lt;- function(x) {\n  x^2\n}\n\nsquare(4)\n\n[1] 16\n\n\nThis function takes one argument (x), squares it, and returns the result. You can store the output or use it directly in a calculation:\n\nsquare(3) + 2\n\n[1] 11\n\n\nFunctions are objects like any other in R—you can assign, print, or inspect them:\n\nsquare\n\nfunction (x) \n{\n    x^2\n}\n&lt;bytecode: 0x64f362f9b418&gt;\n\n\nThe primary reason to write your own functions is to avoid repetition. Whenever you find yourself copying and pasting the same few lines of code, that’s a sign you should probably write a function.\nFunctions help you:\n\nMake code reusable: one definition can be called multiple times.\nMake code readable: meaningful names describe what the code does.\nEncapsulate complexity: you can hide the details of a process behind a simple interface.\n\nFor instance, suppose you frequently rescale numeric variables to a 0–1 range. Instead of repeating the logic each time, you can define a function once and call it whenever needed:\n\nrescale &lt;- function(x, na.rm = TRUE) {\n  rng &lt;- range(x, na.rm = na.rm)\n  (x - rng[1]) / (rng[2] - rng[1])\n}\nrescale(c(1, 5, 10))\n\n[1] 0.0000000 0.4444444 1.0000000\n\n\nThis function now performs a well-defined transformation in a single, descriptive call.\n\n\n\n\n\n\nPractice\n\n\n\nWrite a function that takes a temperature in Fahrenheit as input and returns the equivalent temperature in Celsius. The formula to convert Fahrenheit to Celsius is: C = (F - 32) * 5/9\n\n Interactive Editor Solution\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nfahrenheit_to_celsius &lt;- function(f) {\n  (f - 32) * 5 / 9\n}\n\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Open-Stat-Prog",
+      "User Defined Functions",
+      "Writing Functions in R"
     ]
   },
   {

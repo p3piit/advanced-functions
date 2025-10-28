@@ -72,6 +72,19 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>
+div.callout-resource.callout {
+  border-left-color: orange;
+}
+div.callout-resource.callout-style-default > .callout-header {
+  background-color: rgb(from orange r g b / 13%);
+}
+div.callout-resource .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-resource.callout-style-default .callout-icon::before, div.callout-resource.callout-titled .callout-icon::before {
+  font-family: 'Font Awesome 6 Free', FontAwesome;
+  font-style: normal;
+  content: '\f0c1' !important;
+  background-image: none;
+}
 div.callout-practice.callout {
   border-left-color: green;
 }
@@ -96,19 +109,6 @@ div.callout-reading.callout-style-default .callout-icon::before, div.callout-rea
   font-family: 'Font Awesome 6 Free', FontAwesome;
   font-style: normal;
   content: '\f518' !important;
-  background-image: none;
-}
-div.callout-resource.callout {
-  border-left-color: orange;
-}
-div.callout-resource.callout-style-default > .callout-header {
-  background-color: rgb(from orange r g b / 13%);
-}
-div.callout-resource .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
-div.callout-resource.callout-style-default .callout-icon::before, div.callout-resource.callout-titled .callout-icon::before {
-  font-family: 'Font Awesome 6 Free', FontAwesome;
-  font-style: normal;
-  content: '\f0c1' !important;
   background-image: none;
 }
 div.callout-reading-advanced.callout {
@@ -241,13 +241,13 @@ div.callout-reading-advanced.callout-style-default .callout-icon::before, div.ca
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tutorials/user_fun/write_fun.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">First Topic</span></a>
+ <span class="menu-text">Writing Functions in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tutorials/user_fun/more.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Second Topic</span></a>
+ <span class="menu-text">More on User Defined Functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -316,8 +316,8 @@ Note
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Yes or No?</p>
-<div id="webex-b6c7ab8de8b8e8250789ec941ca789dc" class="webex-radiogroup" data-answer="OQZPB01SFFRJCT8=">
-<label><input type="radio" autocomplete="off" name="b6c7ab8de8b8e8250789ec941ca789dc"><span>No</span></label><label><input type="radio" autocomplete="off" name="b6c7ab8de8b8e8250789ec941ca789dc"><span>No</span></label><label><input type="radio" autocomplete="off" name="b6c7ab8de8b8e8250789ec941ca789dc"><span>No</span></label><label><input type="radio" autocomplete="off" name="b6c7ab8de8b8e8250789ec941ca789dc"><span>Yes</span></label><label><input type="radio" autocomplete="off" name="b6c7ab8de8b8e8250789ec941ca789dc"><span>Yes</span></label>
+<div id="webex-ca54e6c93be27772e8554063f636cbce" class="webex-radiogroup" data-answer="OFEZBEkGTwkfUzg=">
+<label><input type="radio" autocomplete="off" name="ca54e6c93be27772e8554063f636cbce"><span>No</span></label><label><input type="radio" autocomplete="off" name="ca54e6c93be27772e8554063f636cbce"><span>Yes</span></label><label><input type="radio" autocomplete="off" name="ca54e6c93be27772e8554063f636cbce"><span>Yes</span></label><label><input type="radio" autocomplete="off" name="ca54e6c93be27772e8554063f636cbce"><span>Yes</span></label><label><input type="radio" autocomplete="off" name="ca54e6c93be27772e8554063f636cbce"><span>Yes</span></label>
 </div>
 </div>
 <div class="webex-solution">
@@ -743,8 +743,8 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../tutorials/user_fun/more.html" class="pagination-link" aria-label="Second Topic">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Second Topic</span>
+      <a href="../../tutorials/user_fun/more.html" class="pagination-link" aria-label="More on User Defined Functions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">More on User Defined Functions</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
