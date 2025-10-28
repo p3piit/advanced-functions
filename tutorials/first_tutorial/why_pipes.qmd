@@ -83,5 +83,65 @@ bfi %>%
 
 Here, the result of each function is passed directly into the next, eliminating unnecessary assignments and parentheses. Pipes enhance readability by allowing you to see the sequence of transformations at a glance, making your code easier to understand and maintain.
 
+```{webr-r}
+#| autorun: true
+#| context: setup
+data("bfi", package = "psychTools")
+library(dplyr) # load dplyr package
+library(psych) # load psych package
+names(bfi.keys) <- c("agree", "consc", "extra", "neuro", "open")
+tmp <- scoreItems(keys = bfi.keys, items = bfi, impute = "none")
+bfi <- data.frame(bfi, as.data.frame(tmp$scores)) %>%
+     mutate(
+        gender = factor(gender, labels = c("male", "female")),
+        agree_z = (agree - mean(agree, na.rm = TRUE)) / sd(agree, na.rm = TRUE),
+        consc_z = (consc - mean(consc, na.rm = TRUE)) / sd(consc, na.rm = TRUE),
+        extra_z = (extra - mean(extra, na.rm = TRUE)) / sd(extra, na.rm = TRUE),
+        neuro_z = (neuro - mean(neuro, na.rm = TRUE)) / sd(neuro, na.rm = TRUE),
+        open_z  = (open  - mean(open,  na.rm = TRUE)) / sd(open,  na.rm = TRUE),
+        gm = case_when(
+                  age < 18 & gender == "male"   ~ "boy",
+                  age < 18 & gender == "female" ~ "girl",
+                  age >= 18 & gender == "male"  ~ "man",
+                  age >= 18 & gender == "female"~ "woman",
+                  TRUE ~ NA_character_),
+        gm = as.factor(gm),
+        ) %>%
+        rename(ed = education,
+               gen = gender) %>%
+        rename_with(.fn = tolower, .cols = matches("\\d$"))
+```
 
+
+::: practice
+
+## Practice
+
+Use a pipeline to calculate the square root of the mean of the agreeableness scale score for males in the `bfi` data.
+
+:::: {.panel-tabset}
+## {{< var tab_title.editor >}}
+
+```{webr-r}
+
+```
+
+## {{< var tab_title.hint >}}
+
+You can use the `unlist()` function to covert a list to a vector.
+
+## {{< var tab_title.solution >}}
+
+```{r}
+bfi %>%
+  filter(gen == "male") %>%
+  select(agree) %>%
+  unlist() %>%
+  mean(na.rm = TRUE) %>%
+  sqrt()
+
+```
+::::
+
+:::
 
