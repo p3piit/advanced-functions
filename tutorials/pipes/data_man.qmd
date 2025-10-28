@@ -93,7 +93,7 @@ bfi$a1 %>% var(na.rm = TRUE)
 
 Some functions — like `lm()` — don’t take the data frame as the first argument. If you try to use a pipe directly, it won’t work:
 
-```{r}
+```{r, error=TRUE}
 bfi %>% lm(extra ~ age)  # Error
 ```
 
