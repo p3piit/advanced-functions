@@ -2,7 +2,9 @@
 title: "Writing Functions in R"
 ---
 
-The general structure of a function in R is:
+Functions are one of the most important tools in R. They let you package a sequence of operations into a single reusable command, reducing repetition and making your code easier to read and maintain.
+
+The general structure of a function in R is as follows:
 
 ```{r}
 function_name <- function(arg1, arg2 = default_value) {
@@ -29,19 +31,19 @@ square <- function(x) {
 square(4)
 ```
 
-This function takes one argument (x), squares it, and returns the result. You can store the output or use it directly in a calculation:
+This function takes one argument (`x`), squares it, and returns the result. You can store the output or use it directly in a calculation:
 
 ```{r}
 square(3) + 2
 ```
 
-Functions are objects like any other in R—you can assign, print, or inspect them:
+In R, functions are objects just like numbers, vectors, or data frames. You can print them, assign them, or inspect their content:
 
 ```{r}
 square
 ```
 
-The primary reason to write your own functions is to avoid repetition. Whenever you find yourself copying and pasting the same few lines of code, that’s a sign you should probably write a function.
+The main reason to write your own functions is to avoid repeating the same code. If you notice yourself copying and pasting the same few lines several times, that’s a good sign that those lines should become a function instead.
 
 Functions help you:
 
