@@ -4,7 +4,7 @@ title: "More on User Defined Functions"
 
 ### Multiple Arguments and Default Values
 
-Functions can take several arguments, and some may have default values, so the user can choose whether to specify them.
+Functions in R can take multiple arguments, and some of these can have default values. This means that a function can work with just the essential inputs, while still allowing flexibility when you want to adjust its behavior.
 
 ```{r}
 power <- function(x, exp = 2) {
@@ -16,10 +16,9 @@ power(3)
 power(3, 3)
 ```
 
-Here, if you don’t specify exp, it defaults to 2 (squaring).
+In this example, if you don’t specify `exp`, it defaults to 2, so the function squares its input by default.
 
-
-You can also include `if` statements inside your functions to make them react to different inputs.
+You can also include conditional statements such as `if` inside a function, allowing it to behave differently depending on the input.
 
 ```{r}
 categorize_age <- function(age) {
@@ -33,10 +32,9 @@ categorize_age <- function(age) {
 categorize_age(17)
 ```
 
-This is a simple but powerful idea: you can make your functions decide what to do based on input values.
+This simple example shows how a function can make logical decisions. Conditional logic is especially useful when your function needs to classify, filter, or adjust its behavior dynamically based on its inputs.
 
-A function can return any R object — a vector, list, data frame, or even a plot. For example:
-
+A function can return any kind of R object — not just a single value. It can output a vector, a list, a data frame, or even a plot. For example:
 ```{r}
 summarize_vector <- function(vec) {
   mean_val <- mean(vec, na.rm = TRUE)
@@ -50,7 +48,9 @@ summarize_vector <- function(vec) {
 summarize_vector(c(1, 2, 3, 4, NA))
 ```
 
-When you create a function, R also creates a new environment for it to run in. Variables defined inside a function exist only within that function — they are not available outside it.
+Here, the function returns a list containing the mean, standard deviation, and number of non-missing values from the input vector.
+
+When you define a function, R automatically creates a new environment for it to run in. Any variables created inside the function exist only within that environment — they are not available outside the function once it finishes running.
 
 ```{r, error=TRUE}
 add_one <- function(x) {
@@ -63,9 +63,9 @@ add_one(4)
 y
 ```
 
-Here, `y` exists only while the function runs; after it returns, `y` disappears. This isolation prevents unintended side effects.
+In this example, `y` exists only while the function is being executed. Once the function finishes, the temporary variable disappears. This isolation prevents functions from accidentally modifying your global workspace.
 
-Functions can access variables defined in the global environment, but they will not modify them unless you explicitly return a value and reassign it.
+Functions can still access variables defined outside them (in the global environment), but they won’t modify those variables unless you explicitly return a value and reassign it.
 
 ```{r}
 
@@ -78,19 +78,19 @@ increment()
 x
 ```
 
-This separation of environments is one of R’s core design principles: functions are self-contained and safe to reuse without altering your workspace.
+This separation between the function’s internal environment and the global workspace is a fundamental principle of R. It ensures that functions are self-contained, predictable, and safe to reuse without causing unwanted side effects.
 
-### Anonymous Functions and Shortcuts
+Anonymous Functions and Shortcuts
 
-Sometimes you need a quick, one-off function — for example, as an argument to another function — without giving it a name. These are called anonymous functions.
+Sometimes, you might need a simple one-off function to perform a quick operation — for example, as part of another function call. In these cases, defining a named function can feel unnecessary. These short, temporary functions are known as anonymous functions.
 
-You can define them inline with the usual `function()` syntax:
+You can define them inline using the regular `function()` syntax:
 
 ```{r}
 sapply(1:5, function(x) x^2)
 ```
 
-Anonymous functions are especially handy inside tidyverse pipelines:
+Anonymous functions are especially useful inside tidyverse pipelines when you need to apply a transformation directly within a data workflow:
 
 ```{r}
 library(dplyr)
@@ -100,7 +100,7 @@ data <- data.frame(age = c(20, 25, 30, 35, 40),
 data|> mutate(age_sq = sapply(age, function(x) x^2))
 ```
 
-They let you write small transformations on the fly without cluttering your workspace with new function names.
+They let you write small, focused operations inline — keeping your code concise without cluttering your workspace with extra function names.
 
 ::: practice
 
