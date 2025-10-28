@@ -1,189 +1,107 @@
 ---
-title: "Divs & Callouts"
+title: "Using Pipes for Data Manipulation in R"
 ---
 
-This is the second topic file for Tutorial 1.
-
-## Callout Blocks
-
-Use callout blocks to highlight special information.
-
-::: {.callout-note}
-
-## Note Title
-
-Something noteworthy.
-
-:::
-
-::: {.callout-tip}
-
-## Tip Title
-
-Here's a tip for ya...
-
-:::
-
-::: {.callout-important}
-
-## Important Title
-
-This is very important!
-
-:::
-
-::: {.callout-warning}
-
-## Warning Title
-
-You've been warned.
-
-:::
-
-::: {.callout-caution}
-
-## Caution Title
-
-Proceed with caution.
-
-:::
-
-### Custom Callouts
-
-This project uses the [quarto-custom-callout](https://quarto.thecoatlessprofessor.com/custom-callout/) extension to
-provide some bespoke callout blocks. This template already defines four such blocks.
-
-A *reading* callout to highlight relevant, recommended literature.
-
-- I.e., These sources would be the required reading in a classroom context.
-
-::: reading
-
-[R4DS 2: Workflow Basics](https://r4ds.hadley.nz/workflow-basics.html)
-
-:::
-
-A *reading-advanced* callout to highlight relevant, but technically challanging, literature.
-
-- I.e., These sources would be supplementary reference materials but not required reading in a classroom context.
-
-::: reading-advanced
-
-[Advanced R 2.2: Binding Basics](https://adv-r.hadley.nz/names-values.html#binding-basics)
-
-:::
-
-A *resource* callout to highlight related external resources.
-
-::: resource
-
-For a different take on these ideas, check out Andrew Heiss' R Primers tutorial on the topic
-
-- [R Primers: Programming Basics](https://r-primers.andrewheiss.com/basics/02-programming-basics/)
-
-:::
-
-### Practice Callouts
-
-The custom *practice* callout is reserved for inline practice problems.
-
-- The `panel-tabset` div nested within the `practice` div creates a set of tabs to organize the exercise components.
-- Each Level 2 heading inside the `panel-tabset` div defines a new tab.
-   - In the examples below, the tab titles are specified through quarto shortcode variables.
-   - These variables are defined in the `_variables.yml` metadata file.
-
-::: practice
-
-## Example Code Exercise
-
-1. Regress `Petal.Width` onto `Species` using the `iris` dataset.
-1. Create a normal Q-Q plot of the residuals.
-
-:::: {.panel-tabset}
-
-## {{< var tab_title.editor >}}
-
-```{webr-r}
+```{r, echo=FALSE}
+data("bfi", package = "psychTools")
+library(dplyr) # load dplyr package
+library(psych) # load psych package
+names(bfi.keys) <- c("agree", "consc", "extra", "neuro", "open")
+tmp <- scoreItems(keys = bfi.keys, items = bfi, impute = "none")
+bfi <- data.frame(bfi, as.data.frame(tmp$scores)) %>%
+     mutate(
+        gender = factor(gender, labels = c("male", "female")),
+        agree_z = (agree - mean(agree, na.rm = TRUE)) / sd(agree, na.rm = TRUE),
+        consc_z = (consc - mean(consc, na.rm = TRUE)) / sd(consc, na.rm = TRUE),
+        extra_z = (extra - mean(extra, na.rm = TRUE)) / sd(extra, na.rm = TRUE),
+        neuro_z = (neuro - mean(neuro, na.rm = TRUE)) / sd(neuro, na.rm = TRUE),
+        open_z  = (open  - mean(open,  na.rm = TRUE)) / sd(open,  na.rm = TRUE),
+        gm = case_when(
+                  age < 18 & gender == "male"   ~ "boy",
+                  age < 18 & gender == "female" ~ "girl",
+                  age >= 18 & gender == "male"  ~ "man",
+                  age >= 18 & gender == "female"~ "woman",
+                  TRUE ~ NA_character_),
+        gm = as.factor(gm),
+        ) %>%
+        rename(ed = education,
+               gen = gender) %>%
+        rename_with(.fn = tolower, .cols = matches("\\d$"))
 ```
 
-## {{< var tab_title.hint >}}
 
-Remember what happens when you call the Base R `plot()` function on a fitted lm object.
+### Building a Workflow with Pipes
 
-## {{< var tab_title.solution >}}
+Pipes are especially powerful when used to chain together multiple data processing steps. Let’s look at a more substantial example.
 
-1. First, we'll use the `lm()` function to estimate the model.
+Suppose we want to:
+
+1. Center the variable `age` on 18.
+2. Create scale scores for `extraversion` and `neuroticism`.
+3. Keep only participants aged 18 or older.
+4. Select only the scale scores and demographic variables.
+5. Sort the data by `extraversion` in ascending order.
+
+Using `dplyr` pipes, we can write:
 
 ```{r}
-fit1 <- lm(Petal.Width ~ Species, data = iris)
+tmp1 <- bfi %>%
+  mutate(age = age - 18,
+         extra = rowMeans(across(matches("^e\\d$")), na.rm = TRUE),
+         neuro = rowMeans(across(matches("^n\\d$")), na.rm = TRUE)) %>%
+  filter(age >= 0) %>%
+  select(extra, neuro, age, gen, ed, gm) %>%
+  arrange(extra)
+
+head(tmp1, 20)
 ```
 
-1. Then, we'll use the default plotting method for lm objects to create the Q-Q plot.
+Each step is explicit, readable, and self-contained — it’s immediately clear what happens and in what order.
+
+The same logic written in base R would be much harder to follow:
 
 ```{r}
-plot(fit1, 2)
+tmp2 <- bfi
+tmp2$age   <- tmp2$age - 18
+tmp2$extra <- rowMeans(tmp2[grep("^e\\d$", colnames(tmp2))], na.rm = TRUE)
+tmp2$neuro <- rowMeans(tmp2[grep("^n\\d$", colnames(tmp2))], na.rm = TRUE)
+tmp2 <- tmp2[tmp2$age >= 0, c("extra", "neuro", "age", "gen", "ed", "gm")]
+tmp2 <- tmp2[order(tmp2$extra), ]
 ```
 
-::::
+Both approaches produce the same result — but the piped version is far clearer.
 
-:::
+### How Pipes Work
 
-::: practice
+The pipe operator simply takes the result from the left-hand side and inserts it as the first argument in the function on the right-hand side.
 
-## Example Theory Question
+This means the two lines below are equivalent:
 
-:::: {.panel-tabset}
+```{r}
+mean(bfi$age)
+bfi$age %>% mean()
+```
 
-## {{< var tab_title.question >}}
+The same applies when passing arguments to functions:
 
-What is the answer to life, the universe, and everything?
+```{r}
+var(bfi$a1, na.rm = TRUE)
+bfi$a1 %>% var(na.rm = TRUE)
+```
 
-## {{< var tab_title.solution >}}
+### What happens when the data isn’t the first argument?
 
-42
+Some functions — like `lm()` — don’t take the data frame as the first argument. If you try to use a pipe directly, it won’t work:
 
-::::
+```{r}
+bfi %>% lm(extra ~ age)  # Error
+```
 
-:::
 
-## Using the Website Margin
+In these cases, you can use the special placeholder `.` to tell R explicitly where to insert the piped object:
 
-In the previous section, all callout blocks are placed in the website body. In most cases, however, callout blocks are
-better placed in the website margin.
+```{r}
+bfi %>% lm(extra ~ age, data = .)
+```
 
-- Placing supporting elements like links, callouts, and references in the margin streamlines the main body content while
-keeping the supporting information near the relevant main body content.
-
-To place content in the website margine, we use the `column-margin` div.
-
-### Example 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida bibendum ex, quis cursus risus vestibulum vel.
-Aliquam hendrerit in enim in suscipit. Nunc at fringilla velit, a faucibus tellus. Etiam mollis, massa id finibus
-volutpat, tellus nulla egestas mauris, id tempus sem ipsum quis neque. Pellentesque sodales pharetra nulla id sodales.
-Vestibulum tincidunt orci in sem malesuada, in malesuada odio lacinia. Integer sodales, quam eu imperdiet commodo, est
-ipsum interdum risus, et volutpat mi justo blandit est. Donec non nisl lobortis, vestibulum lorem non, iaculis felis.
-Curabitur tempus sagittis volutpat. Nam dignissim eros ac gravida ultricies. Curabitur velit nisl, cursus in lobortis id,
-porttitor in massa. Vestibulum commodo, turpis vitae laoreet efficitur, diam sem consectetur felis, non pulvinar magna
-elit id justo. Duis tincidunt id massa eget lacinia.
-
-::: {.column-margin}
-
-:::: {.callout-important}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-::::
-
-:::
-
-Nam vulputate tellus metus, id pretium nisi congue eu. Ut ornare, sem id cursus suscipit, dui purus efficitur urna, id
-auctor magna diam quis lorem. Cras venenatis id dui at rhoncus. Donec consequat nulla vel arcu vestibulum, ac posuere
-leo venenatis. Praesent fermentum est ac lorem condimentum, gravida volutpat velit sagittis. Cras ac egestas nisi. Duis
-eget luctus quam. Donec consectetur neque nec egestas ultricies.
-
-::: {.column-margin}
-
-:::: resource
-[Wikipedia: Central Limit Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem)
-::::
-
-:::
+This small trick makes it possible to use pipes with nearly any function, even when the data aren’t the first argument.
