@@ -98,6 +98,56 @@ bfi |> mutate(age_sq = sapply(age, function(x) x^2))
 
 They let you write small transformations on the fly without cluttering your workspace with new function names.
 
+::: practice
 
+## Practice
+
+a. Write a function called that takes a single numeric argument and returns a character string describing whether the number is `"positive"`, `"negative"`, or `"zero"`. 
+
+b. Add a second argument to your function that allows the user to specify whether they want the output in uppercase or lowercase letters. The default should be lowercase.
+
+:::: {.panel-tabset}
+## {{< var tab_title.editor >}}
+
+```{webr-r}
+
+```
+
+## {{< var tab_title.hint >}}
+
+To go from lowercase to uppercase, you can use the `toupper()` function in R.
+
+## {{< var tab_title.solution >}}
+
+```{r}
+# a 
+describe_number <- function(num) {
+  if (num > 0) {
+    return("positive")
+  } else if (num < 0) {
+    return("negative")
+  } else {
+    return("zero")
+  }
+}
+
+# b
+describe_number <- function(num, to_upper = FALSE) {
+  if (num > 0) {
+    result <- "positive"
+  } else if (num < 0) {
+    result <- "negative"
+  } else {
+    result <- "zero"
+  }
+  if (to_upper) {
+    result <- toupper(result)
+  }
+  return(result)
+}
+```
+::::
+
+:::
 
 
