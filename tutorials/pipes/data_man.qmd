@@ -106,9 +106,10 @@ bfi %>% lm(extra ~ age, data = .)
 
 This small trick makes it possible to use pipes with nearly any function, even when the data aren’t the first argument.
 
-```{webr-r}
+```{web-r}
 #| autorun: true
 #| context: setup
+library(psychTools)
 data("bfi", package = "psychTools")
 library(dplyr) # load dplyr package
 library(psych) # load psych package

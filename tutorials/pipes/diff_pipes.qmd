@@ -63,6 +63,7 @@ The base pipe is great for lightweight pipelines, while the `%>%` pipe remains p
 ```{webr-r}
 #| autorun: true
 #| context: setup
+library(psychTools)
 data("bfi", package = "psychTools")
 library(dplyr) # load dplyr package
 library(psych) # load psych package

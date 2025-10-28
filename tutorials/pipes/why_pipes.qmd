@@ -86,6 +86,7 @@ Here, the result of each function is passed directly into the next, eliminating 
 ```{webr-r}
 #| autorun: true
 #| context: setup
+library(psychTools)
 data("bfi", package = "psychTools")
 library(dplyr) # load dplyr package
 library(psych) # load psych package
