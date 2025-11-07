@@ -1,8 +1,8 @@
 website:
 
-  title: "OSP Module Template"
+  title: "Advanced Functions in R"
 
-  site-url: "https://www.openstatprog.com/module-template/"
+  site-url: "https://www.openstatprog.com/advanced-functions/"
 
   page-navigation: true
 
@@ -20,9 +20,9 @@ website:
       - icon: github
         menu:
           - text: Source Code
-            href: https://github.com/open-stat-prog/module-template
+            href: https://github.com/open-stat-prog/advanced-functions
           - text: Report a Bug
-            href: https://github.com/open-stat-prog/module-template/issues
+            href: https://github.com/open-stat-prog/advanced-functions/issues
 
   sidebar:
     style: "floating"
