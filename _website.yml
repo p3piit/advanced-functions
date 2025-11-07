@@ -38,6 +38,14 @@ website:
         - href: tutorials/pipes/diff_pipes.qmd
         - href: quizzes/pipes/index.qmd
           text: "Knowledge Quiz"
+     - section: tutorials/loop/index.qmd
+        text: "Loops"
+        contents:
+          - href: tutorials/loop/for.qmd
+          - href: tutorials/loop/conditional.qmd
+          - href: tutorials/loop/vectorization.qmd
+          - href: quizzes/loop/index.qmd
+            text: "Knowledge Quiz"
       - section: tutorials/user_fun/index.qmd
         text: "User Defined Functions"
         contents:
