@@ -45,11 +45,7 @@ square
 
 The main reason to write your own functions is to avoid repeating the same code. If you notice yourself copying and pasting the same few lines several times, that’s a good sign that those lines should become a function instead.
 
-Functions help you:
-
-* Make code reusable: one definition can be called multiple times.
-* Make code readable: meaningful names describe what the code does.
-* Encapsulate complexity: you can hide the details of a process behind a simple interface.
+Functions help you to make the code more reusable, using one definition that can be called multiple times, to make the code more readable, using meaningful names to describe what the code does, and to encapsulate complexity, allowing you to hide the details of a process behind a simple interface.
 
 For instance, suppose you frequently rescale numeric variables to a 0–1 range. Instead of repeating the logic each time, you can define a function once and call it whenever needed:
 

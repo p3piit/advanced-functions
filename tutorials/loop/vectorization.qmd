@@ -47,5 +47,40 @@ In general, vectorized functions like `apply()`, `rowMeans()`, `sum()`, `mean()`
 
 That said, loops remain valuable when each iteration depends on the result of the previous one or when operations cannot be expressed as simple element-wise transformations. The key is to use loops when you need flexibility, and vectorized functions when you need speed and clarity.
 
+::: practice
 
+## Practice
+
+Vectorize the following loop that computes a quadratic transformation on a vector `x`:
+
+```{r}
+x <- 1:10
+out <- numeric(length(x))
+
+for (i in seq_along(x)) {
+  out[i] <- x[i]^2 + 3 * x[i] + 1
+}
+
+out
+
+```
+
+
+:::: {.panel-tabset}
+## {{< var tab_title.editor >}}
+
+```{webr-r}
+
+```
+
+
+## {{< var tab_title.solution >}}
+
+```{r}
+
+x <- 1:10
+out <- x^2 + 3 * x + 1
+out
+
+```
 

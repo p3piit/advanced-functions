@@ -8,8 +8,8 @@ Answerlist
 
 * A `for` loop repeats a fixed number of times; a `while` loop repeats until a condition becomes false.
 * A `for` loop is slower than a `while` loop.
-* A `for` loop can only iterate over numeric vectors.
 * A `while` loop cannot contain conditional statements.
+* A `for` loop can only iterate over numeric vectors.
 * A `while` loop must always run at least once.
 * A `for` loop cannot modify objects outside the loop.
 * A `for` loop checks its condition at the end of the loop.
@@ -24,7 +24,15 @@ Solution
 Answerlist
 ----------
 * TRUE
-* FALSE: 
+* FALSE: a `for` loop is not necessarily slower than a `while` loop; performance depends on context.
+* FALSE: a `while` loop can contain conditional statements.
+* FALSE: a `for` loop can iterate over any iterable object, not just numeric vectors.
+* FALSE: a `while` loop may not run at all if the condition is false at the start.
+* FALSE: a `for` loop can modify objects outside the loop.
+* FALSE: a `for` loop checks its condition at the beginning of the loop.
+* FALSE: a `while` loop can iterate over data frame columns.
+* FALSE: a `for` loop can be nested inside another loop.
+* FALSE: Both loops have different behaviors and use cases.
 
 * TRUE: 14 is strictly less than 48
 * TRUE: 7 is equal to 7, and 7 is greater than or equal to 7
@@ -41,7 +49,7 @@ Answerlist
 
 Meta-information
 ================
-exname: Logical Comparisons
-extype: mchoice
-exsolution: 1111110000000
-exshuffle: 6
+exname: Difference between for and while loops
+extype: schoice
+exsolution: 1000000000
+exshuffle: 5

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Using Pipes for Data Manipulation in R – Advanced Functions in R</title>
+<title>Loops and Vectorization – Advanced Functions in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../tutorials/pipes/diff_pipes.html" rel="next">
-<link href="../../tutorials/pipes/why_pipes.html" rel="prev">
+<link href="../../quizzes/loop/index.html" rel="next">
+<link href="../../tutorials/loop/conditional.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -406,7 +406,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(psychTools)\ndata(\"bfi\", package = \"psychTools\")\nlibrary(dplyr) # load dplyr package\nlibrary(psych) # load psych package\nnames(bfi.keys) <- c(\"agree\", \"consc\", \"extra\", \"neuro\", \"open\")\ntmp <- scoreItems(keys = bfi.keys, items = bfi, impute = \"none\")\nbfi <- data.frame(bfi, as.data.frame(tmp$scores)) %>%\n     mutate(\n        gender = factor(gender, labels = c(\"male\", \"female\")),\n        agree_z = (agree - mean(agree, na.rm = TRUE)) / sd(agree, na.rm = TRUE),\n        consc_z = (consc - mean(consc, na.rm = TRUE)) / sd(consc, na.rm = TRUE),\n        extra_z = (extra - mean(extra, na.rm = TRUE)) / sd(extra, na.rm = TRUE),\n        neuro_z = (neuro - mean(neuro, na.rm = TRUE)) / sd(neuro, na.rm = TRUE),\n        open_z  = (open  - mean(open,  na.rm = TRUE)) / sd(open,  na.rm = TRUE),\n        gm = case_when(\n                  age < 18 & gender == \"male\"   ~ \"boy\",\n                  age < 18 & gender == \"female\" ~ \"girl\",\n                  age >= 18 & gender == \"male\"  ~ \"man\",\n                  age >= 18 & gender == \"female\"~ \"woman\",\n                  TRUE ~ NA_character_),\n        gm = as.factor(gm),\n        ) %>%\n        rename(ed = education,\n               gen = gender) %>%\n        rename_with(.fn = tolower, .cols = matches(\"\\\\d$\"))","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1673,19 +1673,6 @@ div.callout-practice.callout-style-default .callout-icon::before, div.callout-pr
   content: '\f085' !important;
   background-image: none;
 }
-div.callout-reading-advanced.callout {
-  border-left-color: red;
-}
-div.callout-reading-advanced.callout-style-default > .callout-header {
-  background-color: rgb(from red r g b / 13%);
-}
-div.callout-reading-advanced .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
-div.callout-reading-advanced.callout-style-default .callout-icon::before, div.callout-reading-advanced.callout-titled .callout-icon::before {
-  font-family: 'Font Awesome 6 Free', FontAwesome;
-  font-style: normal;
-  content: '\f518' !important;
-  background-image: none;
-}
 div.callout-reading.callout {
   border-left-color: purple;
 }
@@ -1710,6 +1697,19 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
   font-family: 'Font Awesome 6 Free', FontAwesome;
   font-style: normal;
   content: '\f0c1' !important;
+  background-image: none;
+}
+div.callout-reading-advanced.callout {
+  border-left-color: red;
+}
+div.callout-reading-advanced.callout-style-default > .callout-header {
+  background-color: rgb(from red r g b / 13%);
+}
+div.callout-reading-advanced .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-reading-advanced.callout-style-default .callout-icon::before, div.callout-reading-advanced.callout-titled .callout-icon::before {
+  font-family: 'Font Awesome 6 Free', FontAwesome;
+  font-style: normal;
+  content: '\f518' !important;
   background-image: none;
 }
 </style>
@@ -1764,7 +1764,7 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../tutorials/pipes/index.html">Pipes</a></li><li class="breadcrumb-item"><a href="../../tutorials/pipes/data_man.html">Using Pipes for Data Manipulation in R</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../tutorials/loop/index.html">Loops</a></li><li class="breadcrumb-item"><a href="../../tutorials/loop/vectorization.html">Loops and Vectorization</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -1786,11 +1786,11 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
       <div class="sidebar-item-container"> 
             <a href="../../tutorials/pipes/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pipes</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tutorials/pipes/why_pipes.html" class="sidebar-item-text sidebar-link">
@@ -1799,7 +1799,7 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../tutorials/pipes/data_man.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../tutorials/pipes/data_man.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Using Pipes for Data Manipulation in R</span></a>
   </div>
 </li>
@@ -1821,11 +1821,11 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
       <div class="sidebar-item-container"> 
             <a href="../../tutorials/loop/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Loops</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tutorials/loop/for.html" class="sidebar-item-text sidebar-link">
@@ -1840,7 +1840,7 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../tutorials/loop/vectorization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../tutorials/loop/vectorization.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Loops and Vectorization</span></a>
   </div>
 </li>
@@ -1892,16 +1892,8 @@ div.callout-resource.callout-style-default .callout-icon::before, div.callout-re
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#building-a-workflow-with-pipes" id="toc-building-a-workflow-with-pipes" class="nav-link active" data-scroll-target="#building-a-workflow-with-pipes">Building a Workflow with Pipes</a></li>
-  <li><a href="#how-pipes-work" id="toc-how-pipes-work" class="nav-link" data-scroll-target="#how-pipes-work">How Pipes Work</a></li>
-  <li><a href="#what-happens-when-the-data-isnt-the-first-argument" id="toc-what-happens-when-the-data-isnt-the-first-argument" class="nav-link" data-scroll-target="#what-happens-when-the-data-isnt-the-first-argument">What happens when the data isn’t the first argument?</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -2190,9 +2182,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../tutorials/pipes/index.html">Pipes</a></li><li class="breadcrumb-item"><a href="../../tutorials/pipes/data_man.html">Using Pipes for Data Manipulation in R</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../tutorials/loop/index.html">Loops</a></li><li class="breadcrumb-item"><a href="../../tutorials/loop/vectorization.html">Loops and Vectorization</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Using Pipes for Data Manipulation in R</h1>
+<h1 class="title">Loops and Vectorization</h1>
 </div>
 
 
@@ -2209,115 +2201,51 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="building-a-workflow-with-pipes" class="level3">
-<h3 class="anchored" data-anchor-id="building-a-workflow-with-pipes">Building a Workflow with Pipes</h3>
-<p>Pipes are especially powerful when used to chain together multiple data processing steps. Let’s look at a more substantial example.</p>
-<p>Suppose we want to:</p>
-<ol type="1">
-<li>Center the variable <code>age</code> on 18.</li>
-<li>Create scale scores for <code>extraversion</code> and <code>neuroticism</code>.</li>
-<li>Keep only participants aged 18 or older.</li>
-<li>Select only the scale scores and demographic variables.</li>
-<li>Sort the data by <code>extraversion</code> in ascending order.</li>
-</ol>
-<p>Using <code>dplyr</code> pipes, we can write:</p>
+<p>Loops are a flexible and intuitive way to express repetition, but in R they are not always the most efficient choice. The language is built around vectorized operations, which perform many computations in parallel under the hood. Instead of iterating over each element one at a time, R’s vectorized functions apply the same operation to entire vectors or matrices at once, using optimized internal code written in C.</p>
+<p>Vectorized code is usually both faster and clearer, because it avoids explicit looping and intermediate assignments. It also makes your code more expressive — the operation you want to perform is stated directly, rather than described step by step.</p>
+<p>For example, compare these two approaches:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tmp1 <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> age <span class="sc">-</span> <span class="dv">18</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">extra =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">"^e</span><span class="sc">\\</span><span class="st">d$"</span>)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">neuro =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">"^n</span><span class="sc">\\</span><span class="st">d$"</span>)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">&gt;=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(extra, neuro, age, gen, ed, gm) <span class="sc">%&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(extra)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tmp1, <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Using a loop</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  out[i] <span class="ot">&lt;-</span> x[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   extra neuro age    gen ed    gm
-1    1.0   1.0   5   male  3   man
-2    1.0   1.0   1   male  3   man
-3    1.6   3.2   0 female  3 woman
-4    1.8   4.0  18 female  2 woman
-5    2.0   6.0  32 female  3 woman
-6    2.2   4.4   5 female  3 woman
-7    2.2   4.6  22   male NA   man
-8    2.2   4.0  17 female  3 woman
-9    2.2   2.6  22 female  3 woman
-10   2.2   4.2   9 female  5 woman
-11   2.2   3.8  36 female  4 woman
-12   2.2   2.8  11 female  3 woman
-13   2.2   6.0   9 female  3 woman
-14   2.2   1.2   3 female  3 woman
-15   2.2   4.2  20 female  3 woman
-16   2.2   1.4  32 female  4 woman
-17   2.4   2.0  50   male  5   man
-18   2.4   3.6   3   male  4   man
-19   2.4   2.8  36 female  3 woman
-20   2.4   1.0   0 female  1 woman</code></pre>
+<pre><code>[1]  1  4  9 16 25</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectorized version</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  4  9 16 25</code></pre>
 </div>
 </div>
-<p>Each step is explicit, readable, and self-contained — it’s immediately clear what happens and in what order.</p>
-<p>The same logic written in base R would be much harder to follow:</p>
+<p>Both produce the same result, but the vectorized expression <code>x^2</code> is shorter, easier to read, and runs more efficiently.</p>
+<p>Vectorization becomes even more powerful when working with data frames or matrices. Suppose we want to compute the mean of each column in a data frame:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tmp2 <span class="ot">&lt;-</span> bfi</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tmp2<span class="sc">$</span>age   <span class="ot">&lt;-</span> tmp2<span class="sc">$</span>age <span class="sc">-</span> <span class="dv">18</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tmp2<span class="sc">$</span>extra <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(tmp2[<span class="fu">grep</span>(<span class="st">"^e</span><span class="sc">\\</span><span class="st">d$"</span>, <span class="fu">colnames</span>(tmp2))], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tmp2<span class="sc">$</span>neuro <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(tmp2[<span class="fu">grep</span>(<span class="st">"^n</span><span class="sc">\\</span><span class="st">d$"</span>, <span class="fu">colnames</span>(tmp2))], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tmp2 <span class="ot">&lt;-</span> tmp2[tmp2<span class="sc">$</span>age <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="fu">c</span>(<span class="st">"extra"</span>, <span class="st">"neuro"</span>, <span class="st">"age"</span>, <span class="st">"gen"</span>, <span class="st">"ed"</span>, <span class="st">"gm"</span>)]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>tmp2 <span class="ot">&lt;-</span> tmp2[<span class="fu">order</span>(tmp2<span class="sc">$</span>extra), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Both approaches produce the same result — but the piped version is far clearer.</p>
-</section>
-<section id="how-pipes-work" class="level3">
-<h3 class="anchored" data-anchor-id="how-pipes-work">How Pipes Work</h3>
-<p>The pipe operator simply takes the result from the left-hand side and inserts it as the first argument in the function on the right-hand side.</p>
-<p>This means the two lines below are equivalent:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(bfi<span class="sc">$</span>age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">c =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop version</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(df))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(df)) {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(df[[i]])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>means</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 28.78214</code></pre>
+<pre><code>[1]  3  8 13</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bfi<span class="sc">$</span>age <span class="sc">%&gt;%</span> <span class="fu">mean</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectorized version using apply()</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(df, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 28.78214</code></pre>
+<pre><code> a  b  c 
+ 3  8 13 </code></pre>
 </div>
 </div>
-<p>The same applies here:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(bfi<span class="sc">$</span>a1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.981724</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bfi<span class="sc">$</span>a1 <span class="sc">%&gt;%</span> <span class="fu">var</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.981724</code></pre>
-</div>
-</div>
-</section>
-<section id="what-happens-when-the-data-isnt-the-first-argument" class="level3">
-<h3 class="anchored" data-anchor-id="what-happens-when-the-data-isnt-the-first-argument">What happens when the data isn’t the first argument?</h3>
-<p>Some functions — like <code>lm()</code> — don’t take the data frame as the first argument. If you try to use a pipe directly, it won’t work:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>bfi <span class="sc">%&gt;%</span> <span class="fu">lm</span>(extra <span class="sc">~</span> age)  <span class="co"># Error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in as.data.frame.default(data): cannot coerce class '"formula"' to a data.frame</code></pre>
-</div>
-</div>
-<p>In these cases, you can use the special placeholder <code>.</code> to tell R explicitly where to insert the piped object:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bfi <span class="sc">%&gt;%</span> <span class="fu">lm</span>(extra <span class="sc">~</span> age, <span class="at">data =</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = extra ~ age, data = .)
-
-Coefficients:
-(Intercept)          age  
-    3.97269      0.00599  </code></pre>
-</div>
-</div>
-<p>This small trick makes it possible to use pipes with nearly any function, even when the data aren’t the first argument.</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The <code>apply()</code> function internally handles the iteration over columns, making the code concise and efficient.</p>
+<p>In general, vectorized functions like <code>apply()</code>, <code>rowMeans()</code>, <code>sum()</code>, <code>mean()</code>, or arithmetic operators are implemented in optimized C code. They avoid the overhead of R-level looping, which can be significant when working with large datasets.</p>
+<p>That said, loops remain valuable when each iteration depends on the result of the previous one or when operations cannot be expressed as simple element-wise transformations. The key is to use loops when you need flexibility, and vectorized functions when you need speed and clarity.</p>
 <div class="callout callout-style-default callout-practice callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2328,59 +2256,43 @@ Practice
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use pipes to perform the following data manipulations on the <code>bfi</code> dataset:</p>
-<ol type="1">
-<li>Create a new variable <code>age_centered</code> that centers <code>age</code> around its mean.</li>
-<li>Filter the dataset to include only participants with <code>age</code> greater than 25.</li>
-<li>Select only the new centered age variable, the scores for agreeableness and conscientiousness, and the demographic variables <code>gen</code> and <code>ed</code>.</li>
-<li>Display the first 20 rows of the resulting dataset.</li>
-</ol>
+<p>Vectorize the following loop that computes a quadratic transformation on a vector <code>x</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  out[i] <span class="ot">&lt;-</span> x[i]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x[i] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   5  11  19  29  41  55  71  89 109 131</code></pre>
+</div>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><i class="fa-solid fa-code" aria-label="code"></i> Interactive Editor</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><i class="fa-solid fa-circle-check" aria-label="circle-check"></i> Solution</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="qwebr-insertion-location-2"></div>
+<div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bfi <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_centered =</span> age <span class="sc">-</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">&gt;</span> <span class="dv">25</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age_centered, agree, consc, gen, ed) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   age_centered agree consc    gen ed
-1    39.2178571   5.6  2.80   male  5
-2    -1.7821429   5.4  3.80 female  2
-3    22.2178571   4.0  5.80 female  5
-4     4.2178571   3.8  4.20 female  3
-5    12.2178571   5.6  4.60 female  3
-6     1.2178571   6.0  6.00   male NA
-7    19.2178571   4.6  5.20 female  5
-8    11.2178571   5.4  3.80 female  3
-9    -1.7821429   3.8  4.00 female  4
-10   14.2178571   3.8  4.40 female  1
-11   -2.7821429   5.2  4.80 female  4
-12   -2.7821429   4.4  4.00   male  4
-13   -2.7821429   4.6  3.80   male  5
-14   21.2178571   5.0  5.40 female  2
-15    0.2178571   4.2  4.80   male  5
-16    3.2178571   4.2  2.80   male  1
-17    3.2178571   5.6  5.25 female  4
-18   -2.7821429   4.0  5.20 female  3
-19   -1.7821429   5.8  5.00 female  5
-20    7.2178571   4.6  4.80 female  5</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
+<pre><code> [1]   5  11  19  29  41  55  71  89 109 131</code></pre>
 </div>
 </div>
 
 
-</section>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -2791,13 +2703,13 @@ Practice
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../tutorials/pipes/why_pipes.html" class="pagination-link" aria-label="Why Use Pipes in R?">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Why Use Pipes in R?</span>
+      <a href="../../tutorials/loop/conditional.html" class="pagination-link" aria-label="Conditional Loops">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Conditional Loops</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../tutorials/pipes/diff_pipes.html" class="pagination-link" aria-label="Different Pipe Operators in R">
-        <span class="nav-page-text">Different Pipe Operators in R</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../quizzes/loop/index.html" class="pagination-link" aria-label="Knowledge Quiz">
+        <span class="nav-page-text">Knowledge Quiz</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

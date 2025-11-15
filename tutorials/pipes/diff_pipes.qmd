@@ -41,7 +41,12 @@ For example, we can write:
 bfi %$% lm(extra ~ age)
 ```
 
-This works because `%$%` allows the variables extra and age to be used as if they were objects in the global environment, even though they come from within `bfi`.
+This works because `%$%` allows the variables extra and age to be used as if they were objects in the global environment, even though they come from within `bfi`. In practice this means that what we just did is equivalent to:
+
+```{r}
+lm(bfi$extra ~ bfi$age)
+```
+
 
 ### The Base R Pipe `|>`
 

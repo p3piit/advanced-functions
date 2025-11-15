@@ -1,45 +1,42 @@
 Question
 ========
-Which of the following expressions will return `TRUE`?
+Which correctly uses `break` to exit a loop once `i` equals 3?
 
 Answerlist
 ----------
-* `"foo" != "bar"`
-* `(8 + 6) < (8 * 6)`
-* `(8 - 1) == 7 & 7 >= (14 / 2)`
-* `"alice" == "bob" | "alice" == "alice"`
-* `!(6 > 7)`
-* `TRUE`
-* `FALSE`
-* `"foo" == "bar"`
-* `(8 - 1) == 7 & 7 > (14 / 2)`
-* `"alice" == "bob" | "alice" != "alice"`
-* `"alice" == "bob" & "alice" == "alice"`
-* `!TRUE`
-* `TRUE & FALSE`
+
+* `for (i in 1:5) { if (i == 3) break; print(i) }`
+* `for (i in 1:5) { break(i == 3); print(i) }`
+* `for (i == 3 in 1:5) break`
+* `for (i in 1:5) break print(i)`
+* `for (i in 1:5) if i == 3 break else print(i)`
+* `i <- 1; break(for (i in 1:5))`
+* `for (i in 1:5) { print(i) break(i==3) }`
+* `for (i in 1:3) print(i); break`
+* `break for i in 1:5`
+* `for (i in 1:5) print(i==3)`
+
 
 Solution
 ========
 
 Answerlist
 ----------
-* TRUE: "foo" is not equal to "bar"
-* TRUE: 14 is strictly less than 48
-* TRUE: 7 is equal to 7, and 7 is greater than or equal to 7
-* TRUE: "alice" is not equal to "bob", but "alice is equal to "alice"
-* TRUE: 6 is not strictly greater than 7, and that result is negated
-* TRUE: Trivially
-* FALSE: Trivially
-* FALSE: "foo" is not equal to "bar"
-* FALSE: 7 is equal to 7, but 7 is not strictly greater than 7
-* FALSE: "alice" is not equal to "bob", and "alice" is equal to "alice"
-* FALSE: "alice" is not equal to "bob"
-* FALSE: Trivial negation
-* FALSE: Trivially
+* TRUE
+* FALSE: Incorrect use of break as a function.
+* FALSE: Incorrect syntax for loop variable assignment.
+* FALSE: Wrong syntax for break statement.
+* FALSE: Missing curly braces for if-else statement.
+* FALSE: Incorrect use of break outside of loop.
+* FALSE: Incorrect use of break as a function.
+* FALSE: Break statement is outside the loop.
+* FALSE: Incorrect syntax for break statement.
+* FALSE: Does not exit loop; just prints logical comparison.
+
 
 Meta-information
 ================
 exname: Logical Comparisons
-extype: mchoice
-exsolution: 1111110000000
-exshuffle: 6
+extype: schoice
+exsolution: 1000000000
+exshuffle: 5

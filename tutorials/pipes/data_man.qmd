@@ -82,7 +82,7 @@ mean(bfi$age)
 bfi$age %>% mean()
 ```
 
-The same applies when passing arguments to functions:
+The same applies here:
 
 ```{r}
 var(bfi$a1, na.rm = TRUE)
@@ -106,7 +106,7 @@ bfi %>% lm(extra ~ age, data = .)
 
 This small trick makes it possible to use pipes with nearly any function, even when the data aren’t the first argument.
 
-```{web-r}
+```{webr-r}
 #| autorun: true
 #| context: setup
 library(psychTools)
@@ -142,6 +142,7 @@ bfi <- data.frame(bfi, as.data.frame(tmp$scores)) %>%
 ## Practice
 
 Use pipes to perform the following data manipulations on the `bfi` dataset:
+
 1. Create a new variable `age_centered` that centers `age` around its mean.
 2. Filter the dataset to include only participants with `age` greater than 25.
 3. Select only the new centered age variable, the scores for agreeableness and conscientiousness, and the demographic variables `gen` and `ed`.

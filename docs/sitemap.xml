@@ -1,71 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/user_fun/more.html</loc>
-    <lastmod>2025-10-28T22:46:19.710Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/user_fun/more.html</loc>
+    <lastmod>2025-11-14T13:56:31.335Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/pipes/why_pipes.html</loc>
-    <lastmod>2025-10-28T19:36:22.378Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/loop/index.html</loc>
+    <lastmod>2025-11-07T11:57:01.321Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/pipes/data_man.html</loc>
-    <lastmod>2025-10-28T22:53:56.306Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/loop/for.html</loc>
+    <lastmod>2025-11-14T14:27:07.359Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/index.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/pipes/why_pipes.html</loc>
+    <lastmod>2025-10-28T23:07:03.464Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/pipes/data_man.html</loc>
+    <lastmod>2025-11-14T13:26:24.250Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/index.html</loc>
+    <lastmod>2025-11-14T13:19:14.816Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/in_progress.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/in_progress.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/user_fun/questions/default_arguments1.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/user_fun/questions/default_arguments1.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/loop/index.html</loc>
+    <lastmod>2025-11-07T13:48:06.369Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/loop/questions/logical.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/pipes/index.html</loc>
-    <lastmod>2025-10-28T22:07:58.373Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/index.html</loc>
+    <lastmod>2025-11-14T15:15:37.366Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/pipes/questions/logical.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/placeholder.html</loc>
+    <lastmod>2025-11-14T15:16:00.939Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/webr.html</loc>
+    <lastmod>2025-11-14T15:20:31.289Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/mean.html</loc>
+    <lastmod>2025-11-14T14:59:15.771Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/arithmetic2.html</loc>
+    <lastmod>2025-11-14T15:14:07.176Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/logical.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/pipes/questions/arithmetic2.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/default_arguments2.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/pipes/questions/default_arguments2.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/pipes/questions/bmi.html</loc>
+    <lastmod>2025-11-14T15:18:33.740Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/loop/questions/arithmetic2.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/user_fun/questions/bad_question.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/loop/questions/default_arguments2.html</loc>
     <lastmod>2025-10-28T18:46:51.364Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/quizzes/user_fun/index.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/user_fun/questions/bad_question.html</loc>
+    <lastmod>2025-10-28T18:46:51.364Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/quizzes/user_fun/index.html</loc>
     <lastmod>2025-10-28T22:08:11.700Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/conclusion.html</loc>
-    <lastmod>2025-10-28T18:46:51.364Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/conclusion.html</loc>
+    <lastmod>2025-11-07T14:07:48.890Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/pipes/diff_pipes.html</loc>
-    <lastmod>2025-10-28T19:42:07.231Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/pipes/diff_pipes.html</loc>
+    <lastmod>2025-11-14T14:04:54.115Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/pipes/index.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/pipes/index.html</loc>
     <lastmod>2025-10-28T19:04:12.779Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/user_fun/write_fun.html</loc>
-    <lastmod>2025-10-28T22:50:36.851Z</lastmod>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/loop/vectorization.html</loc>
+    <lastmod>2025-11-14T14:32:56.834Z</lastmod>
   </url>
   <url>
-    <loc>https://www.openstatprog.com/module-template/tutorials/user_fun/index.html</loc>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/loop/conditional.html</loc>
+    <lastmod>2025-11-14T14:27:05.832Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/user_fun/write_fun.html</loc>
+    <lastmod>2025-11-14T14:04:50.417Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.openstatprog.com/advanced-functions/tutorials/user_fun/index.html</loc>
     <lastmod>2025-10-28T21:54:16.602Z</lastmod>
   </url>
 </urlset>

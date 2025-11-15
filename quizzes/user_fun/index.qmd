@@ -17,7 +17,9 @@ title: "Knowledge Quiz: Tutorial 2"
 
 exams2forms::exams2forms(
   file = list(
-    "bad_question.Rmd"
+    "def.Rmd",
+    "square.Rmd",
+    "fix.Rmd"
   ),
   edir = here::here("quizzes", "user_fun", "questions")
 )

@@ -38,7 +38,7 @@ website:
         - href: tutorials/pipes/diff_pipes.qmd
         - href: quizzes/pipes/index.qmd
           text: "Knowledge Quiz"
-     - section: tutorials/loop/index.qmd
+      - section: tutorials/loop/index.qmd
         text: "Loops"
         contents:
           - href: tutorials/loop/for.qmd

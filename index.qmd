@@ -10,7 +10,7 @@ format:
 source(here::here("R", "buttons.R"))
 ```
 
-Welcome to the module on Advanced Functions in R. This module introduces the core programming tools that make R a truly flexible and powerful language. You’ll learn how to automate repetitive tasks, design your own reusable functions, and connect multiple operations together into clear, efficient workflows.Each tutorial section will conclude with a short knowledge quiz.
+Welcome to the module on Advanced Functions in R. This module introduces the core programming tools that make R a truly flexible and powerful language. You’ll learn how to automate repetitive tasks, design your own reusable functions, and connect multiple operations together into clear, efficient workflows. Each tutorial section will conclude with a short knowledge quiz.
 
 1. [Pipes](/tutorials/pipes/index.qmd)
 2. [Loops](/tutorials/loop/index.qmd)

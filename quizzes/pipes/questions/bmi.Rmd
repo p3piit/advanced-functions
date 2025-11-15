@@ -12,7 +12,6 @@ The correct code is `health$bmi %>% var() %>% sqrt()`.
 
 Meta-information
 ================
-exname: Arithmetic
+exname: Squared Variance of BMI
 extype: str
-exsolution: `health %>% pull(bmi) %>% var()`
-extol: 0.01
+exsolution: health %>% pull(bmi) %>% var()

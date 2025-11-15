@@ -80,7 +80,7 @@ x
 
 This separation between the function’s internal environment and the global workspace is a fundamental principle of R. It ensures that functions are self-contained, predictable, and safe to reuse without causing unwanted side effects.
 
-Anonymous Functions and Shortcuts
+## Anonymous Functions and Shortcuts
 
 Sometimes, you might need a simple one-off function to perform a quick operation — for example, as part of another function call. In these cases, defining a named function can feel unnecessary. These short, temporary functions are known as anonymous functions.
 
